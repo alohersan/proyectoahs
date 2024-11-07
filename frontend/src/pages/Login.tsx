@@ -9,10 +9,15 @@ import TextField from "@mui/material/TextField";
 import Alert from "@mui/material/Alert";
 import VpnKeyIcon from '@mui/icons-material/VpnKey';
 import {useNavigate} from 'react-router-dom'
+//Importamos el useDispatch del react-redux
+import { useDispatch} from 'react-redux'
+//Importamos las acciones que están en el fichero authSlice.ts
+import { authActions } from '../store/authSlice';
 
 
 function Login() {
     // Variables
+    const dispatch = useDispatch();
     const navigate=useNavigate();
     const bduser = 'alondra';
     const bdpasswd = '1999';
@@ -46,6 +51,11 @@ function Login() {
         if (data.username === bduser && data.password === bdpasswd) {
             navigate('/home');
             console.log('Usuario:', data.username, 'Contraseña:', data.password);
+            //aquí pongo el dispatch para cambiar el estado a login en el store del redux
+            dispatch(authActions.login({
+                name: data.username, //data.user es el nombre de usuario que ha ingresado el usuario
+                rol: 'administrador'
+            }))
 
         } else {
             setAlertMessage('Usuario o contraseña incorrectos');
@@ -59,7 +69,7 @@ function Login() {
             <Paper elevation={4} sx={{ p:4, width: '100%', maxWidth: 800 }}>
                 <Box component={'form'} onSubmit={handleSubmit} sx={{ width: '100%', maxWidth: '100%' }}>
                     <Typography variant='h4' color='primary' sx={{ mb: 1, textAlign: 'center' }}>
-                        Sistema de Acceso
+                         Sistema de Acceso
                     </Typography>
                     <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', mb: 4 }}>
                         <VpnKeyIcon color="info" sx={{ fontSize: 40 }} />
