@@ -3,6 +3,7 @@ const express = require('express')
 const cors = require('cors')
 //importo el fichero login.js que está en la carpeta services
 const login = require('./services/login')
+const items=require('./services/items')
 
 //Definimos el puerto por que va a escuchar nuestra API las peticiones
 const port  = 3030
@@ -21,7 +22,7 @@ app.use(cors())
 //Ejemplo para ver cómo funciona un endpoint:
 //este endpoint / y devuelve un mensaje
 app.get('/', function (req, res) {
-    res.json({message: 'Okayyyy lets go'})
+    res.json({message: 'Hello'})
 })
 
 //Creación del endpoint: /login
@@ -35,6 +36,36 @@ app.get('/login', async function(req, res, next) {
         res.json(await login.getUserData(req.query.user, req.query.password))
     } catch (err) {
         console.error(`Error while getting data `, err.message);
+        next(err);
+    }
+})
+
+//añadir un resgistro a la bd
+app.get('/addItem', async function(req, res, next) {
+    try {
+        res.json(await items.insertData(req,res))
+    } catch (err) {
+        console.error(`Error while inserting items `, err.message);
+        next(err);
+    }
+})
+
+//obtener los registros de la bd
+app.get('/getItems', async function(req, res, next) {
+    try {
+        res.json(await  items.getData(req,res))
+    } catch (err) {
+        console.error(`Error while getting items `, err.message);
+        next(err);
+    }
+})
+
+//borrar un resgitros de la bd
+app.get('/deleteItem', async function(req, res, next) {
+    try {
+        res.json(await items.deleteData(req))
+    } catch (err) {
+        console.error(`Error while deleting items `, err.message);
         next(err);
     }
 })

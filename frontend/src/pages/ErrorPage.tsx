@@ -18,16 +18,16 @@ function ErrorPage() {
         <>
             <Container role={'main'}
                        sx={{display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '100vh'}}>
-                <Box sx={{ width: '100%', maxWidth: '100%' }}>
+                <Box sx={{width: '100%', maxWidth: '100%'}}>
                     <Grid container spacing={2}>
                         <Grid item xs={12} sm={6}>
-                        <img src={'./oops.png'} alt="Gato preocupado" width={200} height={200}/>
+                            <img src={'./oops.png'} alt="Gato preocupado" width={200} height={200}/>
                         </Grid>
 
                         <Grid item xs={12} sm={4}>
-                        <Typography variant='h4' color='primary' sx={{mt: 10, textAlign: 'center'}}>
-                            Oops, ha ocurrido un error inesperado
-                        </Typography>
+                            <Typography variant='h4' color='primary' sx={{mt: 10, textAlign: 'center'}}>
+                                Oops, ha ocurrido un error inesperado
+                            </Typography>
                         </Grid>
                     </Grid>
 
@@ -37,8 +37,8 @@ function ErrorPage() {
                         fullWidth
                         type='submit'
                         onClick={handleClick}
-                            sx={{mt: 2}}>Volver al inicio de sesión
-                        </Button>
+                        sx={{mt: 2}}>Volver al inicio de sesión
+                    </Button>
                 </Box>
 
 
