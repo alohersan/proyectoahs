@@ -54,74 +54,75 @@ function Login() {
                 console.log('Lo que nos llega de la base de datos: ')
                 console.log(response.data)
                 if (response.data.length !== 0) {
-                        navigate('/home');
-                        console.log('Usuario:', data.username, 'Contraseña:', data.password);
-                        //aquí pongo el dispatch para cambiar el estado a login en el store del redux
-                        dispatch(authActions.login({
-                            name: response.data.nombre, //data.user es el nombre de usuario que ha ingresado el usuario
-                            rol: response.data.rol
-                        }))
+                    //aquí pongo el dispatch para cambiar el estado a login en el store del redux
+                    dispatch(authActions.login({
+                        name: response.data.nombre, //data.user es el nombre de usuario que ha ingresado el usuario
+                        rol: response.data.rol
+                    }))
+                    console.log('Usuario:', data.username, 'Contraseña:', data.password);
+                    navigate('/home');
 
-                    } else {
-                        setAlertMessage('Usuario o contraseña incorrectos');
-                        setAlertSeverity('error');
-                        console.log('Usuario:', data.username, 'Contraseña:', data.password);
-                    }
+                } else {
+                    setAlertMessage('Usuario o contraseña incorrectos');
+                    setAlertSeverity('error');
+                    console.log('Usuario:', data.username, 'Contraseña:', data.password);
+                }
 
             })
     }
 
 
-return (
-    <Container role={'main'} sx={{display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '100vh'}}>
-        <Paper elevation={4} sx={{p: 4, width: '100%', maxWidth: 800}}>
-            <Box component={'form'} onSubmit={handleSubmit} sx={{width: '100%', maxWidth: '100%'}}>
-                <Typography variant='h4' color='primary' sx={{mb: 1, textAlign: 'center'}}>
-                    Sistema de Acceso
-                </Typography>
-                <Box sx={{display: 'flex', justifyContent: 'center', alignItems: 'center', mb: 4}}>
-                    <VpnKeyIcon color="info" sx={{fontSize: 40}}/>
-                </Box>
-                <Grid container spacing={2}>
-                    <Grid item xs={12} sm={6}>
-                        <TextField
-                            required
-                            label="Usuario"
-                            variant="outlined"
-                            fullWidth
-                            name="username"
-                            value={data.username}
-                            onChange={handleChangeUsername}
-                        />
+    return (
+        <Container role={'main'}
+                   sx={{display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '100vh'}}>
+            <Paper elevation={4} sx={{p: 4, width: '100%', maxWidth: 800}}>
+                <Box component={'form'} onSubmit={handleSubmit} sx={{width: '100%', maxWidth: '100%'}}>
+                    <Typography variant='h4' color='primary' sx={{mb: 1, textAlign: 'center'}}>
+                        Sistema de Acceso
+                    </Typography>
+                    <Box sx={{display: 'flex', justifyContent: 'center', alignItems: 'center', mb: 4}}>
+                        <VpnKeyIcon color="info" sx={{fontSize: 40}}/>
+                    </Box>
+                    <Grid container spacing={2}>
+                        <Grid item xs={12} sm={6}>
+                            <TextField
+                                required
+                                label="Usuario"
+                                variant="outlined"
+                                fullWidth
+                                name="username"
+                                value={data.username}
+                                onChange={handleChangeUsername}
+                            />
+                        </Grid>
+                        <Grid item xs={12} sm={6}>
+                            <TextField
+                                required
+                                type='password'
+                                label='Contraseña'
+                                variant="outlined"
+                                fullWidth
+                                name="password"
+                                value={data.password}
+                                onChange={handleChangePassword}
+                            />
+                        </Grid>
                     </Grid>
-                    <Grid item xs={12} sm={6}>
-                        <TextField
-                            required
-                            type='password'
-                            label='Contraseña'
-                            variant="outlined"
-                            fullWidth
-                            name="password"
-                            value={data.password}
-                            onChange={handleChangePassword}
-                        />
-                    </Grid>
-                </Grid>
-                <Button
-                    variant='contained'
-                    color='secondary'
-                    fullWidth
-                    type='submit'
-                    sx={{mt: 2}}>Iniciar Sesión
-                </Button>
-                {alertOpen &&
-                    <Alert severity={alertSeverity} sx={{mt: 2}}>{alertMessage}</Alert>
-                }
+                    <Button
+                        variant='contained'
+                        color='secondary'
+                        fullWidth
+                        type='submit'
+                        sx={{mt: 2}}>Iniciar Sesión
+                    </Button>
+                    {alertOpen &&
+                        <Alert severity={alertSeverity} sx={{mt: 2}}>{alertMessage}</Alert>
+                    }
 
-            </Box>
-        </Paper>
-    </Container>
-);
+                </Box>
+            </Paper>
+        </Container>
+    );
 }
 
 export default Login;
