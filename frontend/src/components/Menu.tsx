@@ -22,11 +22,19 @@ import HelpIcon from '@mui/icons-material/Help';
 import OutputIcon from '@mui/icons-material/Output';
 import {Link} from 'react-router-dom';
 
-function Menu(){
+function Menu() {
     //Almacenamos en la variable userData lo que obtenemos del store usando el hook useSelector
     const userData = useSelector((state: RootState) => state.authenticator)
     const navigate = useNavigate();
     const dispatch = useDispatch();
+
+    //Evitar que se pueda acceder a paginas sin estar autenticado
+    const isLoggedin = userData.isAutenticated
+    useEffect(() => {
+        if (!isLoggedin) {
+            navigate('/')
+        }
+    }, [isLoggedin, navigate])
 
     //Comprobamos por la consola qué obtenemos del store
     console.log(userData)
@@ -37,60 +45,52 @@ function Menu(){
         setOpen(newOpen);
     };
 
-    //Evitar que se pueda acceder a paginas sin estar autenticado
-    const isLoggedin = userData.isAutenticated
-    useEffect(() => {
-        if (!isLoggedin) {
-            navigate('/')
-        }
-    }, [isLoggedin, navigate])
-
     //cerrar sesion
-    function handleLogOut(){
-            navigate('/')
+    function handleLogOut() {
+        dispatch(authActions.logout())
+        navigate('/')
     }
 
-
     const DrawerList = (
-        <Box sx={{ width: 250 }} role="presentation" onClick={toggleDrawer(false)}>
+        <Box sx={{width: 250}} role="presentation" onClick={toggleDrawer(false)}>
             {/*Link a las distintas paginas de la app*/}
             <List>
-                <Link to={'/home'} >
-                        <ListItemButton>
-                            <ListItemIcon sx={{color:'secondary.main'}}>
-                                <CottageIcon/>
-                            </ListItemIcon>
-                            <ListItemText sx={{color:'primary.main'}} >Inicio</ListItemText>
-                        </ListItemButton>
-                </Link>
-
-                <Link to={'/reports'}>
+                <Link to={'/home'}>
                     <ListItemButton>
-                        <ListItemIcon sx={{color:'secondary.main'}}>
-                            <FeedIcon/>
+                        <ListItemIcon sx={{color: 'secondary.main'}}>
+                            <CottageIcon/>
                         </ListItemIcon>
-                        <ListItemText sx={{color:'primary.main'}}>Informes</ListItemText>
+                        <ListItemText sx={{color: 'primary.main'}}>Inicio</ListItemText>
                     </ListItemButton>
                 </Link>
 
+                {/*Solo el usuario admin puede ver la seccion reports*/}
+                {userData.userRol == "admin" ?
+                    <Link to={'/reports'}>
+                        <ListItemButton>
+                            <ListItemIcon sx={{color: 'secondary.main'}}>
+                                <FeedIcon/>
+                            </ListItemIcon>
+                            <ListItemText sx={{color: 'primary.main'}}>Informes</ListItemText>
+                        </ListItemButton>
+                    </Link> : <></>}
 
                 <Link to={'/help'}>
                     <ListItemButton>
-                        <ListItemIcon sx={{color:'secondary.main'}}>
+                        <ListItemIcon sx={{color: 'secondary.main'}}>
                             <HelpIcon/>
                         </ListItemIcon>
-                        <ListItemText sx={{color:'primary.main'}}>Ayuda</ListItemText>
+                        <ListItemText sx={{color: 'primary.main'}}>Ayuda</ListItemText>
                     </ListItemButton>
                 </Link>
 
-                <Link to={'/'}>
-                    <ListItemButton >
-                        <ListItemIcon sx={{color:'secondary.main'}} onClick={handleLogOut}>
-                            <OutputIcon/>
-                        </ListItemIcon>
-                        <ListItemText sx={{color:'primary.main'}}>Salir</ListItemText>
-                    </ListItemButton>
-                </Link>
+                <ListItemButton onClick={handleLogOut}>
+                    <ListItemIcon sx={{color: 'secondary.main'}}>
+                        <OutputIcon/>
+                    </ListItemIcon>
+                    <ListItemText sx={{color: 'primary.main'}}>Salir</ListItemText>
+                </ListItemButton>
+
 
             </List>
 
@@ -99,36 +99,36 @@ function Menu(){
 
     return (
         <>
-        <Box sx={{width: '100%', maxWidth: '100%'}} >
-            <AppBar >
-                <Toolbar>
-                    {/*Icono de usuario*/}
-                    <IconButton
-                        size="large"
-                        edge="start"
-                        color="inherit"
-                        aria-label="menu"
-                        sx={{ mr: 2 }}
-                        onClick={toggleDrawer(true)}
-                    >
-                        <MenuIcon />
-                    </IconButton>
-                    {/*Nombre de usuario*/}
-                    <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-                        {userData.userName}
-                    </Typography>
-                    <IconButton
-                        size="large"
-                        edge="start"
-                        color="inherit"
-                        aria-label="menu"
-                        sx={{ mr: 2 }}>
-                        {userData.userRol == "admin" ?
-                        <ManageAccountsIcon/> : <Person4Icon/>}
-                    </IconButton>
-                </Toolbar>
-            </AppBar>
-        </Box>
+            <Box sx={{width: '100%', maxWidth: '100%'}}>
+                <AppBar>
+                    <Toolbar>
+                        {/*Icono de usuario*/}
+                        <IconButton
+                            size="large"
+                            edge="start"
+                            color="inherit"
+                            aria-label="menu"
+                            sx={{mr: 2}}
+                            onClick={toggleDrawer(true)}
+                        >
+                            <MenuIcon/>
+                        </IconButton>
+                        {/*Nombre de usuario*/}
+                        <Typography variant="h6" component="div" sx={{flexGrow: 1}}>
+                            {userData.userName}
+                        </Typography>
+                        <IconButton
+                            size="large"
+                            edge="start"
+                            color="inherit"
+                            aria-label="menu"
+                            sx={{mr: 2}}>
+                            {userData.userRol == "admin" ?
+                                <ManageAccountsIcon/> : <Person4Icon/>}
+                        </IconButton>
+                    </Toolbar>
+                </AppBar>
+            </Box>
             {/*Drawer*/}
             <Drawer open={open} onClose={toggleDrawer(false)}>
                 {DrawerList}

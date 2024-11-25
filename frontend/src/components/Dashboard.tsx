@@ -14,18 +14,24 @@ import TableRow from '@mui/material/TableRow';
 import TableCell from '@mui/material/TableCell'
 import TableBody from '@mui/material/TableBody'
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
+import {useSelector} from "react-redux";
+import {RootState} from "../store/index";
 
 
 function App() {
     //tabla
     const [tableData, setTableData] = useState([])
     const [showTable, setShowTable] = useState(true);
+
     useEffect(() => {
         if (showTable) {
             getItems()
             setShowTable(false)
         }
     }, [showTable]);
+
+    //Almacenamos en la variable userData lo que obtenemos del store usando el hook useSelector
+      const userData = useSelector((state: RootState) => state.authenticator)
 
 
     //Creamos el tipo itemtype.Este tipo será un objeto con un id opcional de tipo number
@@ -230,9 +236,10 @@ function App() {
                             {tableData.map((row: itemtype) => (
                                 <TableRow key={row.id}>
                                     <TableCell>
+                                        {userData.userRol == "admin" ?
                                         <Button onClick={() => handleDeleteItem(row)}>
                                             <DeleteForeverIcon sx={{color: 'secondary.main'}}/>
-                                        </Button>
+                                        </Button>:<></>}
                                     </TableCell>
                                     <TableCell>{row.nombre}</TableCell>
                                     <TableCell>{row.marca}</TableCell>
