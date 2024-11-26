@@ -3,6 +3,7 @@ import Login from "./pages/Login.tsx";
 import Home from "./pages/Home.tsx";
 import Reports from "./pages/Reports.tsx";
 import ErrorPage from "./pages/ErrorPage.tsx";
+import GestionUsuarios from "./pages/GestionUsuarios.tsx"
 import './App.css'
 import {createBrowserRouter, RouterProvider} from 'react-router-dom'
 
@@ -22,6 +23,10 @@ const router = createBrowserRouter([
             {
                 path:'reports',
                 element:<Reports/>
+            },
+            {
+                path:'gestionusuarios',
+                element: <GestionUsuarios />
             }
         ]
     },

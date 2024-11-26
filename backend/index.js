@@ -50,6 +50,16 @@ app.get('/addItem', async function(req, res, next) {
     }
 })
 
+//añadir un usuario
+app.get('/addUser',async function(req,res,next){
+    try{
+        res.json(await items.insertarUsuario(req,res))
+    }catch(err){
+        console.error(`Error while inserting user `, err.message);
+        next(err);
+    }
+})
+
 //obtener los registros de la bd
 app.get('/getItems', async function(req, res, next) {
     try {
@@ -59,7 +69,15 @@ app.get('/getItems', async function(req, res, next) {
         next(err);
     }
 })
-
+//obtener los usuarios de la bd
+app.get('/getUsers',async function(req, res, next) {
+    try{
+        res.json(await items.getUsuarios(req,res))
+    }catch(err){
+        console.error(`Error while getting users `, err.message);
+        next(err);
+    }
+})
 //borrar un resgitros de la bd
 app.get('/deleteItem', async function(req, res, next) {
     try {

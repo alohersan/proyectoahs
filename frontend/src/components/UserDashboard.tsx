@@ -13,25 +13,23 @@ import TableHead from '@mui/material/TableHead'
 import TableRow from '@mui/material/TableRow';
 import TableCell from '@mui/material/TableCell'
 import TableBody from '@mui/material/TableBody'
-import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import {useSelector} from "react-redux";
 import {RootState} from "../store/index";
 
-
-function App() {
+function UserDashboard() {
     //tabla
     const [tableData, setTableData] = useState([])
     const [showTable, setShowTable] = useState(true);
 
     useEffect(() => {
         if (showTable) {
-            getItems()
+            getUsuarios()
             setShowTable(false)
         }
     }, [showTable]);
 
     //Almacenamos en la variable userData lo que obtenemos del store usando el hook useSelector
-      const userData = useSelector((state: RootState) => state.authenticator)
+    const userData = useSelector((state: RootState) => state.authenticator)
 
 
     //Creamos el tipo itemtype.Este tipo será un objeto con un id opcional de tipo number
@@ -39,17 +37,17 @@ function App() {
     interface itemtype {
         id?: number
         nombre: string
-        marca: string
-        tipo: string
-        precio: number
+        login: string
+        password: string
+        rol:string
     }
 
     //Inicializo los valores del item.Aqui no pongo el id porque no lo necesito
     const itemInitialState: itemtype = {
         nombre: '',
-        marca: '',
-        tipo: '',
-        precio: 0,
+        login: '',
+        password: '',
+        rol:'',
     }
 
     //Cuando declaremos el useState del item en nuestro
@@ -63,27 +61,27 @@ function App() {
         });
     };
 
-    //Guardar la marca
-    const handleChangeMarca = (e) => {
+    //Guardar el login
+    const handleChangeLogin = (e) => {
         setItem({
             ...item,
-            marca: e.target.value
+           login: e.target.value
         });
     };
 
-    //Guardar el tipo
-    const handleChangeTipo = (e) => {
+    //Guardar la contraseña
+    const handleChangePassword = (e) => {
         setItem({
             ...item,
-            tipo: e.target.value
+            password: e.target.value
         })
     }
 
-    //Guarda el precio
-    const handleChangePrecio = (e) => {
+    //Guarda el rol
+    const handleChangeRol = (e) => {
         setItem({
             ...item,
-            precio: e.target.value
+           rol: e.target.value
         })
     }
 
@@ -91,31 +89,18 @@ function App() {
     const handleClear = () => {
         setItem({
             nombre: '',
-            marca: '',
-            tipo: '',
-            precio: 0,
+            login: '',
+            password: '',
+            rol:'',
         });
     };
 
 
 
-    //Eliminar registro
-    const handleDeleteItem = (row: itemtype) => {
-        fetch(`http://localhost:3030/deleteItem?id=${row.id}`)
-            .then(response => response.json())
-            .then(response => {
-                if (response > 0) {
-                    getItems()
-                    alert('Datos eliminados con éxito')
-                } else {
-                    alert('No se han eliminado los datos')
-                }
-            })
-    }
 
     //Mostrar datos en la tabla
-    async function getItems() {
-        fetch(`http://localhost:3030/getItems`)
+    async function getUsuarios() {
+        fetch(`http://localhost:3030/getUsers`)
             .then(response => response.json())
             .then(response => {
                 setTableData(response.data)
@@ -126,12 +111,12 @@ function App() {
     //Enviar datos
     async function handleSubmit(e: any) {
         e.preventDefault();
-        fetch(`http://localhost:3030/addItem?nombre=${item.nombre}&marca=${item.marca}&tipo=${item.tipo}&precio=${item.precio}`)
+        fetch(`http://localhost:3030/addUser?nombre=${item.nombre}&login=${item.login}&password=${item.password}&rol=${item.rol}`)
             .then(response => response.json())
             .then(response => {
                 if (response > 0) {
-                    // getItems para que se actualize la tabla
-                    getItems()
+                    // getUsuarios para que se actualize la tabla
+                    getUsuarios()
                     alert('Datos guardados con éxito')
                     handleClear()
                 } else {
@@ -144,7 +129,7 @@ function App() {
         <>
             <Container className="container">
                 <Box component='form' onSubmit={handleSubmit} sx={{width: '100%', maxWidth: '100%', mt: '50px'}}>
-                    <Typography variant='h6' color={"secondary"} sx={{mb: 2, textAlign: 'center'}}>Registro</Typography>
+                    <Typography variant='h6' color={"secondary"} sx={{mb: 2, textAlign: 'center'}}>Registro de Usuarios</Typography>
                     <Grid container spacing={2}>
                         <Grid item xs={12} sm={6}>
                             {/*Nombre*/}
@@ -158,37 +143,36 @@ function App() {
                             />
                         </Grid>
                         <Grid item xs={12} sm={6}>
-                            {/*Marca*/}
+                            {/*Login*/}
                             <TextField
                                 required
-                                label='Marca'
+                                label='Login'
                                 variant='outlined'
                                 fullWidth
-                                value={item.marca}
-                                onChange={handleChangeMarca}
+                                value={item.login}
+                                onChange={handleChangeLogin}
                             />
                         </Grid>
                         <Grid item xs={12} sm={6}>
-                            {/*Tipo*/}
+                            {/*Password*/}
                             <TextField
                                 required
-                                label='Tipo'
+                                label='Password'
                                 variant='outlined'
                                 fullWidth
-                                value={item.tipo}
-                                onChange={handleChangeTipo}
+                                value={item.password}
+                                onChange={handleChangePassword}
                             />
                         </Grid>
                         <Grid item xs={12} sm={6}>
-                            {/*Precio*/}
+                            {/*Rol*/}
                             <TextField
                                 required
-                                type='number'
-                                label='Precio'
+                                label='Rol'
                                 variant='outlined'
                                 fullWidth
-                                value={item.precio}
-                                onChange={handleChangePrecio}
+                                value={item.rol}
+                                onChange={handleChangeRol}
                             />
                         </Grid>
                     </Grid>
@@ -212,7 +196,6 @@ function App() {
                                     variant="contained"
                                     endIcon={<SendIcon/>}
                                     type="submit"
-                                    disabled={userData.userRol=='invitado'}
                             >
                                 Insertar Datos
                             </Button>
@@ -224,29 +207,22 @@ function App() {
 
                 {/*Tabla*/}
                 <TableContainer>
-                    <Table aria-label='Tabla Coleccion'>
+                    <Table aria-label='Tabla Usuarios'>
                         <TableHead>
                             <TableRow sx={{backgroundColor: 'primary.main', textAlign: 'center'}}>
-                                <TableCell></TableCell>
                                 <TableCell sx={{color: 'white'}}>Nombre</TableCell>
-                                <TableCell sx={{color: 'white'}}>Marca</TableCell>
-                                <TableCell sx={{color: 'white'}}>Tipo</TableCell>
-                                <TableCell sx={{color: 'white'}}>Precio</TableCell>
+                                <TableCell sx={{color: 'white'}}>Login</TableCell>
+                                <TableCell sx={{color: 'white'}}>Password</TableCell>
+                                <TableCell sx={{color: 'white'}}>Rol</TableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>
                             {tableData.map((row: itemtype) => (
                                 <TableRow key={row.id}>
-                                    <TableCell>
-                                        {userData.userRol == "admin" ?
-                                        <Button onClick={() => handleDeleteItem(row)}>
-                                            <DeleteForeverIcon sx={{color: 'secondary.main'}}/>
-                                        </Button>:<></>}
-                                    </TableCell>
                                     <TableCell>{row.nombre}</TableCell>
-                                    <TableCell>{row.marca}</TableCell>
-                                    <TableCell>{row.tipo}</TableCell>
-                                    <TableCell>{row.precio}</TableCell>
+                                    <TableCell>{row.login}</TableCell>
+                                    <TableCell>{row.password}</TableCell>
+                                    <TableCell>{row.rol}</TableCell>
                                 </TableRow>
                             ))}
                         </TableBody>
@@ -256,5 +232,4 @@ function App() {
         </>
     );
 }
-
-export default App;
+export default UserDashboard

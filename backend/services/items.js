@@ -13,6 +13,13 @@ async function insertData(req, res) {
 
 }
 
+//Insertar usuarios en la tabla usuarios
+async function insertarUsuario (req, res) {
+    const data = req.query
+    const resul= await db.query(`INSERT INTO usuarios (nombre,login,password,rol) VALUES ('${data.nombre}','${data.login}','${data.password}','${data.rol}')`)
+    return resul.affectedRows
+}
+
 //Función con la consulta de obtener datos de la base de datos: select * from coleccion
 async function getData(req, res) {
 //La variable rows almacena los datos obtenidos de la consulta select.
@@ -24,6 +31,12 @@ async function getData(req, res) {
 //Devolvemos el resultado del Select, que está almacenado en la variable data
         data
     }
+}
+//Funcion para obtener los registros de usuarios
+async function getUsuarios(req,res){
+    const rows=await db.query(`SELECT * FROM usuarios`)
+    const data = helper.emptyOrRows(rows)
+    return{data}
 }
 
 //Función con la consulta para borrar datos de la base de datos: DELETE
@@ -38,5 +51,5 @@ async function deleteData (req, res) {
 }
 //Al final del fichero exporto las funciones
 module.exports={
-    getData,insertData,deleteData
+    getData,insertData,deleteData,insertarUsuario,getUsuarios
 }

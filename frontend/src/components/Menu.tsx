@@ -14,12 +14,15 @@ import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
 import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
-import Person4Icon from '@mui/icons-material/Person4';
+import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
+import InsertEmoticonIcon from '@mui/icons-material/InsertEmoticon';
+import AdbIcon from '@mui/icons-material/Adb';
 import {Drawer, List, ListItemButton, ListItemIcon, ListItemText} from "@mui/material";
 import CottageIcon from '@mui/icons-material/Cottage';
 import FeedIcon from '@mui/icons-material/Feed';
 import HelpIcon from '@mui/icons-material/Help';
 import OutputIcon from '@mui/icons-material/Output';
+
 import {Link} from 'react-router-dom';
 
 function Menu() {
@@ -75,6 +78,17 @@ function Menu() {
                         </ListItemButton>
                     </Link> : <></>}
 
+                {/*Solo el usuario admin puede gestionar usuarios*/}
+                {userData.userRol == "admin" ?
+                <Link to={'/gestionusuarios'}>
+                    <ListItemButton>
+                        <ListItemIcon sx={{color: 'secondary.main'}}>
+                            <ManageAccountsIcon/>
+                        </ListItemIcon>
+                        <ListItemText sx={{color: 'primary.main'}}>Gestionar Usuarios</ListItemText>
+                    </ListItemButton>
+                </Link>:<></>}
+
                 <Link to={'/help'}>
                     <ListItemButton>
                         <ListItemIcon sx={{color: 'secondary.main'}}>
@@ -124,7 +138,7 @@ function Menu() {
                             aria-label="menu"
                             sx={{mr: 2}}>
                             {userData.userRol == "admin" ?
-                                <ManageAccountsIcon/> : <Person4Icon/>}
+                                <AdminPanelSettingsIcon/> : <AdbIcon/> }
                         </IconButton>
                     </Toolbar>
                 </AppBar>
