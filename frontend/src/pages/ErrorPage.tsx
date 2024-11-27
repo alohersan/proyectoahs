@@ -4,6 +4,7 @@ import Container from "@mui/material/Container";
 import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid2";
+import ToolTip from "@mui/material/Tooltip"
 
 import {useNavigate} from 'react-router-dom'
 
@@ -31,14 +32,16 @@ function ErrorPage() {
                         </Grid>
                     </Grid>
 
-                    <Button
-                        variant='contained'
-                        color='secondary'
-                        fullWidth
-                        type='submit'
-                        onClick={handleClick}
-                        sx={{mt: 2}}>Volver al inicio de sesión
-                    </Button>
+                    <ToolTip title={'Volver a la página de  Inicio de Sesión'} placement={'bottom'} arrow>
+                        <Button
+                            variant='contained'
+                            color='secondary'
+                            fullWidth
+                            type='submit'
+                            onClick={handleClick}
+                            sx={{mt: 2}}>Volver al inicio de sesión
+                        </Button>
+                    </ToolTip>
                 </Box>
 
 

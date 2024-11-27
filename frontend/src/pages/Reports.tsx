@@ -3,6 +3,7 @@ import Menu from '../components/Menu.tsx';
 import Button from "@mui/material/Button";
 import Container from '@mui/material/Container';
 import InformeColeccion from '../components/InformeColeccion.tsx';
+import ToolTip from '@mui/material/Tooltip'
 
 function Reports() {
     interface itemtype {
@@ -42,15 +43,17 @@ function Reports() {
     return (
         <>
             <Menu />
-            <Button
-                variant="contained"
-                color="secondary"
-                fullWidth
-                type="submit"
-                onClick={handleClick}
-            sx={{mt:'80px'}}>
-                Informes Colección
-            </Button>
+            <ToolTip title={'Ver informe de la tabla Coleccion'} placement={'bottom'} arrow>
+                <Button
+                    variant="contained"
+                    color="secondary"
+                    fullWidth
+                    type="submit"
+                    onClick={handleClick}
+                    sx={{mt:'80px'}}>
+                    Informes Colección
+                </Button>
+            </ToolTip>
             <Container  sx={{width:'100vh',mt:'80px'}}>
                 {/* Mostrar el componente si se pulsa el botón */}
                 {clicked && <InformeColeccion data={coleccion} />}

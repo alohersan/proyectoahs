@@ -14,6 +14,7 @@ import TableRow from '@mui/material/TableRow';
 import TableCell from '@mui/material/TableCell'
 import TableBody from '@mui/material/TableBody'
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
+import ToolTip from '@mui/material/Tooltip'
 import {useSelector} from "react-redux";
 import {RootState} from "../store/index";
 
@@ -196,24 +197,29 @@ function App() {
                     <Grid container spacing={2} justifyContent="flex-end" sx={{mt: 2}}>
                         <Grid item xs={12} sm={6}>
                             {/*Limpiar*/}
-                            <Button fullWidth
-                                    variant="contained"
-                                    color='secondary'
-                                    startIcon={<DeleteIcon/>}
-                                    onClick={handleClear} //Limpiar los datos
-                            >
-                                Limpiar
-                            </Button>
+                            <ToolTip title='Vaciar Campos' placement='left' arrow>
+                                <Button fullWidth
+                                        variant="contained"
+                                        color='secondary'
+                                        startIcon={<DeleteIcon/>}
+                                        onClick={handleClear} //Limpiar los datos
+                                >
+                                    Limpiar
+                                </Button>
+                            </ToolTip>
+
                         </Grid>
                         <Grid item xs={12} sm={6}>
                             {/*Enviar*/}
-                            <Button fullWidth
-                                    variant="contained"
-                                    endIcon={<SendIcon/>}
-                                    type="submit"
-                            >
-                                Insertar Datos
-                            </Button>
+                            <ToolTip title='Insertar Datos' placement='right' arrow>
+                                <Button fullWidth
+                                        variant="contained"
+                                        endIcon={<SendIcon/>}
+                                        type="submit"
+                                >
+                                    Insertar Datos
+                                </Button>
+                            </ToolTip>
                         </Grid>
                     </Grid>
                 </Box>
@@ -236,10 +242,12 @@ function App() {
                             {tableData.map((row: itemtype) => (
                                 <TableRow key={row.id}>
                                     <TableCell>
-                                        {userData.userRol == "admin" ?
-                                        <Button onClick={() => handleDeleteItem(row)}>
-                                            <DeleteForeverIcon sx={{color: 'secondary.main'}}/>
-                                        </Button>:<></>}
+                                        <ToolTip title={'Borrar'} placement={'left'} arrow>
+                                            {userData.userRol == "admin" ?
+                                                <Button onClick={() => handleDeleteItem(row)}>
+                                                    <DeleteForeverIcon sx={{color: 'secondary.main'}}/>
+                                                </Button>:<></>}
+                                        </ToolTip>
                                     </TableCell>
                                     <TableCell>{row.nombre}</TableCell>
                                     <TableCell>{row.marca}</TableCell>

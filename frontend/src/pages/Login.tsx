@@ -8,6 +8,7 @@ import Grid from "@mui/material/Grid";
 import TextField from "@mui/material/TextField";
 import Alert from "@mui/material/Alert";
 import VpnKeyIcon from '@mui/icons-material/VpnKey';
+import ToolTip from '@mui/material/Tooltip'
 import {useNavigate} from 'react-router-dom'
 //Importamos el useDispatch del react-redux
 import {useDispatch} from 'react-redux'
@@ -108,13 +109,15 @@ function Login() {
                             />
                         </Grid>
                     </Grid>
-                    <Button
-                        variant='contained'
-                        color='secondary'
-                        fullWidth
-                        type='submit'
-                        sx={{mt: 2}}>Iniciar Sesión
-                    </Button>
+                    <ToolTip title='Iniciar Sesión' placement='right' arrow>
+                        <Button
+                            variant='contained'
+                            color='secondary'
+                            fullWidth
+                            type='submit'
+                            sx={{mt: 2}}>Iniciar Sesión
+                        </Button>
+                    </ToolTip>
                     {alertOpen &&
                         <Alert severity={alertSeverity} sx={{mt: 2}}>{alertMessage}</Alert>
                     }

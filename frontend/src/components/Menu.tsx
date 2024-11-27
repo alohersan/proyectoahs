@@ -6,7 +6,6 @@ import {RootState} from '../store/index'
 //Importamos las acciones que están en el fichero authSlice.ts
 import {authActions} from '../store/authSlice';
 import {useNavigate} from 'react-router-dom'
-
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -75,7 +74,7 @@ function Menu() {
                         </ListItemButton>
                     </Link> : <></>}
 
-                <Link to={'/help'}>
+                <Link to={'/Hernández_Sánchez_Alondra_UT4A1.pdf'} target="_blank">
                     <ListItemButton>
                         <ListItemIcon sx={{color: 'secondary.main'}}>
                             <HelpIcon/>
@@ -130,9 +129,9 @@ function Menu() {
                 </AppBar>
             </Box>
             {/*Drawer*/}
-            <Drawer open={open} onClose={toggleDrawer(false)}>
-                {DrawerList}
-            </Drawer>
+                <Drawer open={open} onClose={toggleDrawer(false)}>
+                    {DrawerList}
+                </Drawer>
         </>
     );
 }
