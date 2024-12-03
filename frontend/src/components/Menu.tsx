@@ -15,7 +15,6 @@ import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
 import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
 import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
-import InsertEmoticonIcon from '@mui/icons-material/InsertEmoticon';
 import AdbIcon from '@mui/icons-material/Adb';
 import {Drawer, List, ListItemButton, ListItemIcon, ListItemText} from "@mui/material";
 import CottageIcon from '@mui/icons-material/Cottage';

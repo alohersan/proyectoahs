@@ -27,7 +27,8 @@ const router = createBrowserRouter([
             {
                 path:'gestionusuarios',
                 element: <GestionUsuarios />
-            }
+            },
+
         ]
     },
 ]);
